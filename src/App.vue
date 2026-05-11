@@ -43,7 +43,7 @@ function taskStats() {
 
 <template>
   <div class="main">
-    <h1>Tasks Tracker</h1>
+    <h1 style="font-weight: bold; letter-spacing: 1px; color: #F0EBD8">Tasks Tracker</h1>
 
     <div class="top-section">
 
@@ -55,14 +55,13 @@ function taskStats() {
           v-model="name"
           required
           placeholder="Type your task here..."
+          style="width: 480px; padding: 5px 7px; margin-bottom: 5px"
         >
 
         <button>
           Add Task
         </button>
       </form>
-      
-      <div class="divider"></div>
 
       <div class="task-stats">
 
@@ -81,7 +80,7 @@ function taskStats() {
         </button>
 
         <div v-if="stats">
-          <h2>
+          <h2 style="color: #F0EBD8">
             Total Tasks: {{ tasks.length }}
           </h2>
 
@@ -126,19 +125,20 @@ function taskStats() {
                 completed: task.done,
                 pending: !task.done
               }"
-              style="flex: 1"
             >
               {{ task.taskName }}
             </span>
 
-            <input
-              type="checkbox"
-              v-model="task.done"
-            >
+            <div class="controls">
+              <input
+                type="checkbox"
+                v-model="task.done"
+              >
 
-            <button @click="removeTask(task)">
-              Remove
-            </button>
+              <button @click="removeTask(task)">
+                Remove
+              </button>
+            </div>
           </li>
         </ol>
 
@@ -152,13 +152,19 @@ function taskStats() {
 </template>
 
 <style> 
+.main {
+  background-color: #0D1321;
+  height: 100vh
+}
+
 .completed { 
-  color: green; 
-  text-decoration: line-through; 
+  color: rgb(8, 107, 23); 
+  text-decoration: line-through;
+  text-decoration-color: rgb(21, 32, 38) 
 } 
 
 .pending { 
-  color: red; 
+  color: rgb(153, 17, 17); 
 } 
 
 button { 
@@ -175,15 +181,7 @@ button {
   margin-top: 10px;
   margin-bottom: 10px;
   padding-left: 20px;
-  padding-right: 20px;
-  border-top: solid medium antiquewhite;
-  border-bottom: solid medium antiquewhite;
-}
-
-.divider {
-  width: 1px;
-  background-color:antiquewhite;
-  height: 200px
+  padding-right: 20px
 }
 
 .form-area {
@@ -193,12 +191,74 @@ button {
 
 .task-stats {
   flex: 1;
-  text-align: center
+  text-align: center;
+  background-color: #1D2D44;
+  border-radius: 10px;
+  box-shadow: 2px 5px 10px #162132;
+  padding: 5px
+}
+
+.task-display {
+  text-align: center;
+  background-color: #1D2D44;
+  border-radius: 10px;
+  box-shadow: 2px 5px 10px #162132;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 20px 20px;
+
+}
+
+.controls {
+  justify-content: right;
+  padding-right: 30px;
+  display: flex;
+  gap: 10px
+}
+
+span {
+  flex: 1; 
+  padding-top: 3px; 
+  padding-bottom: 3px;
+  padding-left: 30px;
+  text-align: left
+}
+
+ol {
+  padding-left: 0px
 }
 
 li {
   display: flex;
   align-items: center;
-  list-style-type: style type lower-roman greek;
+  background-color: #172436;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-radius: 5px
+}
+
+li:hover {
+  background-color: #0D1321;
+}
+
+button {
+  background-color: #748CAB;
+  color: #F0EBD8;
+  border-radius: 5px;
+  border: none;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 7px;
+  padding-right: 7px
+}
+
+button:hover {
+  background-color: #3E5C76;
 }
 </style>
