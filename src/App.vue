@@ -1,14 +1,17 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 
 const tasks = ref([])
 const name = ref('')
 const disp = ref(true)
 const stats = ref(true)
+
 const totalTasks = computed(() => {return tasks.value.length})
 const completedTasks = computed(() => {return tasks.value.filter((i) => i.done === true).length})
 const incompleteTasks = computed(() => {return tasks.value.filter((i) => i.done === false).length})
+
 const currentFilter = ref('all')
+
 const filteredTasks = computed(() => {
   if (currentFilter.value === 'all') {
     return tasks.value
@@ -24,6 +27,25 @@ const filteredTasks = computed(() => {
     return tasks.value.filter(
       (i) => i.done === false
     )
+  }
+})
+
+watch(
+  tasks,
+  () => {
+    localStorage.setItem(
+      'savedTasks',
+      JSON.stringify(tasks.value)
+    )
+  },
+  { deep: true }
+)
+
+onMounted(() => {
+  const savedTasks = localStorage.getItem('savedTasks')
+
+  if (savedTasks !== null) {
+    tasks.value = JSON.parse(savedTasks)
   }
 })
 
@@ -59,6 +81,11 @@ function display() {
 
 function taskStats() {
   stats.value = !stats.value
+}
+
+function clearTasks() {
+  tasks.value = []
+  localStorage.removeItem('savedTasks')
 }
 </script>
 
@@ -155,6 +182,13 @@ function taskStats() {
         >
           Incomplete Tasks
         </button>
+
+        <button
+          @click="clearTasks()"
+          class="deleteButton"
+        >
+          Clear
+        </button>
       </div>
       <div v-if="disp">
         <ol>
@@ -196,7 +230,7 @@ function taskStats() {
 <style> 
 .main {
   background-color: #0D1321;
-  height: 100vh
+  min-height: 100vh
 }
 
 .completed { 
@@ -207,10 +241,6 @@ function taskStats() {
 
 .pending { 
   color: rgb(153, 17, 17); 
-} 
-
-button { 
-  margin: 5px 10px; 
 } 
 
 .top-section {
@@ -262,6 +292,19 @@ button {
   background-color: #3E5C76;
 }
 
+.deleteButton {
+  background-color: #a11a27;
+  color: #F0EBD8;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 7px;
+}
+
+.deleteButton:hover {
+  background-color: #d51f31;
+  transform: scale(1.03)
+}
+
 span {
   flex: 1; 
   padding: 3px 0px 3px 30px; 
@@ -283,7 +326,7 @@ li {
 
 li:hover {
   background-color: #0D1321;
-  transition: 5ms ease;
+  transition: 0.2s ease;
   transform: scale(1.005)
 }
 
@@ -293,11 +336,12 @@ button {
   border-radius: 5px;
   border: none;
   padding: 5px 7px;
+  margin: 5px 10px; 
 }
 
 button:hover {
   background-color: #3E5C76;
-  transition: 5ms ease;
+  transition: 0.2s ease;
   transform: scale(1.01)
 }
 
