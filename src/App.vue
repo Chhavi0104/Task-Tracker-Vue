@@ -83,9 +83,11 @@ function taskStats() {
   stats.value = !stats.value
 }
 
-function clearTasks() {
-  tasks.value = []
-  localStorage.removeItem('savedTasks')
+function getConfirmation() {
+  if (confirm("Are you sure you want to delete all tasks?")) {
+    tasks.value = []
+    localStorage.removeItem('savedTasks')
+  }
 }
 </script>
 
@@ -184,7 +186,7 @@ function clearTasks() {
         </button>
 
         <button
-          @click="clearTasks()"
+          @click="getConfirmation()"
           class="deleteButton"
         >
           Clear
@@ -218,9 +220,18 @@ function clearTasks() {
           </li>
         </ol>
 
-        <p v-if="tasks.length === 0">
-          No tasks to display
-        </p>
+        <div
+          v-if="tasks.length === 0"
+          class="empty-state"
+        >
+          <h2>
+            No tasks yet
+          </h2>
+
+          <p>
+            Add your first task above
+          </p>
+        </div>
       </div>
 
     </div>
@@ -228,9 +239,18 @@ function clearTasks() {
 </template>
 
 <style> 
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .main {
   background-color: #0D1321;
-  min-height: 100vh
+  min-height: 100vh;
+  max-width: 1800px;
+  width: 95%;
+  margin: auto;
+  padding-top: 10px;
 }
 
 .completed { 
@@ -262,7 +282,11 @@ function clearTasks() {
   background-color: #1D2D44;
   border-radius: 10px;
   box-shadow: 2px 5px 10px #162132;
-  padding: 5px
+  padding: 5px;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .task-display {
@@ -272,7 +296,7 @@ function clearTasks() {
   box-shadow: 2px 5px 10px #162132;
   margin: 20px;
   padding: 20px 20px;
-
+  min-height: 45vh
 }
 
 .controls {
@@ -303,6 +327,22 @@ function clearTasks() {
 .deleteButton:hover {
   background-color: #d51f31;
   transform: scale(1.03)
+}
+
+.empty-state {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.empty-state h2 {
+  color: #F0EBD8;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #748CAB;
+  font-size: 18px;
 }
 
 span {
