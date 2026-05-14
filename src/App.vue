@@ -235,6 +235,7 @@ function getConfirmation() {
       </div>
 
     </div>
+    <footer>Tasks Tracker • Built with Vue 3 • Chhavi Bhardwaj © 2026</footer>
   </div>
 </template>
 
@@ -393,5 +394,10 @@ h1 {
 
 h2 {
   color: #F0EBD8
+}
+
+footer {
+  font-size: 10px;
+  color: #3E5C76
 }
 </style>
